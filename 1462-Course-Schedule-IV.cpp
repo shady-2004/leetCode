@@ -1,25 +1,26 @@
 class Solution {
-
-    bool dfs(vector<vector<int>>&graph,int i,int target,vector<bool>&visited){
-        if(visited[i])return false;
-        if(i==target)return true;
-        visited[i]=true;
-        for(int j=0;j<graph[i].size();j++){
-            if(dfs(graph,graph[i][j],target,visited)) return true;
+    void transitiveClosure(int n,vector<vector<bool>>&transClosure){
+        for(int k=0;k<n;k++){
+            for(int i=0;i<n;i++){
+                for(int j=0;j<n;j++){
+                   transClosure[i][j]= (transClosure[i][k]&transClosure[k][j])|transClosure[i][j];
+                }
+            }
         }
-        return false;
     }
+
 public:
     vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
-        vector<vector<int>>graph(numCourses);
+        vector<vector<bool>>transClosure(numCourses,vector<bool>(numCourses,0));
         vector<bool>res(queries.size(),false);
-        
-        for(auto&edge:prerequisites)  
-            graph[edge[0]].push_back(edge[1]);
+        for(int i=0;i<numCourses;i++)
+            transClosure[i][i]=1;
 
+        for(auto&edge:prerequisites)
+            transClosure[edge[0]][edge[1]]=true;
+            transitiveClosure(numCourses,transClosure);
             for(int i=0;i<queries.size();i++){
-                vector<bool>visited(numCourses,false);
-                res[i]=dfs(graph,queries[i][0],queries[i][1],visited);
+                res[i]=transClosure[queries[i][0]][queries[i][1]];
             }
             return res;
     }
