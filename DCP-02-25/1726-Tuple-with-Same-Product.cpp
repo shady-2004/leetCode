@@ -10,8 +10,8 @@ public:
             }
 
         for(auto&[_,c]:freq){
-            count+=c>=2?(2*c-2)*2*c:0;
+            count+=c>=2?(c-1)*c:0;
         }
-            return count;
+            return count*4;
     }
 };
