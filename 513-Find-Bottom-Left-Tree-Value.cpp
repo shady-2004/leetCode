@@ -10,35 +10,22 @@
  * };
  */
 class Solution {
+    void rec(TreeNode* root,int &leftMost,int &level,int cur){
+        if(!root)return ;
+        if(level<cur){
+            leftMost=root->val;
+            level++;
+        }
+        rec(root->left,leftMost,level,cur+1);
+        rec(root->right,leftMost,level,cur+1);
+    }
+
 public:
     int findBottomLeftValue(TreeNode* root) {
-        int leftMost=root->val;
-        queue<TreeNode*>q;
+        int leftMost;
+        int level=-1;
 
-        q.push(root);
-        while(!q.empty()){
-            int s=q.size();
-            bool first=0;
-            while(s--){
-                TreeNode*cur=q.front();
-                q.pop();
-                if(cur->left){
-                    if(!first){
-                        leftMost=cur->left->val;
-                        first=true;
-                    }
-                    q.push(cur->left);
-                }
-                if(cur->right){
-                    if(!first){
-                        leftMost=cur->right->val;
-                        first=true;
-                    }
-                    q.push(cur->right);
-
-                }
-            }
-        }
+        rec(root,leftMost,level,0);
         return leftMost;
     }
 };
