@@ -7,7 +7,7 @@ public:
     }
     
     void change(int index, int number) {
-        if(idx.count(index)){
+        if(idx.find(index)!=idx.end()){
             int cur=idx[index];
             occur[cur].erase(index);
             if(occur[cur].size()==0)occur.erase(cur);
@@ -17,7 +17,7 @@ public:
     }
     
     int find(int number) {
-        if(occur.count(number)) return *occur[number].begin();
+        if(occur.find(number)!=occur.end()) return *occur[number].begin();
         return -1;
     }
 };
