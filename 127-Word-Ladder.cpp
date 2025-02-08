@@ -1,19 +1,12 @@
 class Solution {
-    void bellman(vector<int>&dist,vector<vector<int>>&edges,int n){
-        for(int i=0;i<n-1;i++){
-            for(auto&edge:edges){
-                if(dist[edge[0]]!=INT_MAX&&dist[edge[0]]+1<dist[edge[1]])
-                    dist[edge[1]]=dist[edge[0]]+1;
-            }
-        }
-    }
+  
    
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         int end=find(wordList.begin(),wordList.end(),endWord)-wordList.begin();
         if(end>=wordList.size()) return 0;
 
-        vector<vector<int>>edges;
+        vector<vector<int>>edges(wordList.size()+1);
         for(int i=0;i<wordList.size()-1;i++)
            for(int j=i+1;j<wordList.size();j++)
                 {
@@ -23,9 +16,9 @@ public:
                         if(differs>1)break;
                     }
                     if(differs==1){
-                        edges.push_back({i+1,j+1});
-                        edges.push_back({j+1,i+1});
-
+                        edges[i+1].push_back(j+1);
+                        edges[j+1].push_back(i+1);
+                        
                     }
                 }
                 for(int i=0;i<wordList.size();i++){
@@ -35,14 +28,30 @@ public:
                         if(differs>1)break;
                     }
                      if(differs==1){
-                       edges.push_back({i+1,0});
-                        edges.push_back({0,i+1});
+                       edges[0].push_back(i+1);
                     }
                 }
-                vector<int>dist(wordList.size()+1,INT_MAX);
-                dist[0]=0;
-        bellman(dist,edges,wordList.size()+1);
+             vector<bool>visited(wordList.size()+1,false);
+             queue<int>q;
+             q.push(0);
+             int s=1;
+             while(!q.empty()){
+                int size=q.size();
+                while(size--){
+                    int cur=q.front();
+                    q.pop();
+                    for(auto a:edges[cur]){
+                        if(!visited[a]){
+                            if(a==end+1)return s+1;
+                            q.push(a);
+                        }
+                    }
+                    visited[cur]=true;
+                }
+                s++;
+             }
+
        
-        return dist[end+1]==INT_MAX?0:dist[end+1]+1;
+        return 0;
     }
 };
