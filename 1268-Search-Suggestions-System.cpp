@@ -63,9 +63,9 @@ public:
             trie.findAllPrefixOccurences(curWord,cur);
                 sort(cur.begin(),cur.end());
             if(cur.size()>3){
-                cur=vector<string>(cur.begin(),cur.begin()+3);
-            }
-            res.push_back(cur);
+               res.push_back(vector<string>(cur.begin(),cur.begin()+3));
+            }else res.push_back(cur);
+           
             cur.clear();
         }
         return res;
