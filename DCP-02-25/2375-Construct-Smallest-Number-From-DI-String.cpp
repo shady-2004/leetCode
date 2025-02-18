@@ -6,24 +6,26 @@ class Solution {
             else res=cur;
             return;
         }
+        int st,ed;
+
         if(pattern[i]=='D'){
-            for(int j=prev+1;j<=9;j++){
-                if(visited[j])continue;
-                cur[i]=j+'0';
-                visited[j]=true;
-                rec(pattern,cur,res,visited,i-1,j);
-                visited[j]=false;
-            }
+            st=prev+1;
+            ed=9;
         }
         else{
-           for(int j=prev-1;j>=1;j--){
+            st=1;
+            ed=prev-1;
+            }
+     
+            for(int j=st;j<=ed;j++){
                 if(visited[j])continue;
                 cur[i]=j+'0';
                 visited[j]=true;
                 rec(pattern,cur,res,visited,i-1,j);
                 visited[j]=false;
             }
-        }
+      
+        
     }
 public:
     string smallestNumber(string pattern) {
