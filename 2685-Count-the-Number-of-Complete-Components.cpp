@@ -1,23 +1,41 @@
 class Solution {
-public:
-    int firstCompleteIndex(vector<int>& arr, vector<vector<int>>& mat) {
-        int n=mat.size();
-        int m=mat[0].size();
-        vector<int>rows(n,0);
-        vector<int>cols(m,0);
-        
-        unordered_map<int,pair<int,int>>locs;
-        for(int i=0;i<n;i++)
-            for(int j=0;j<m;j++)
-               locs[mat[i][j]]=pair<int,int>({i,j});
-
-        for(int i=0;i<arr.size();i++){
-            rows[locs[arr[i]].first]++;
-            cols[locs[arr[i]].second]++;
-            if(rows[locs[arr[i]].first]==m||cols[locs[arr[i]].second]==n)
-                return i;
+    bool Union(int a,int b,vector<int>&parent,vector<int>&rank){
+        int para=dad(a,parent);
+        int parb=dad(b,parent);
+        if(para==parb)return false;
+        if(rank[para]>rank[parb])
+        {
+            parent[parb]=para;
+            rank[para]++;
         }
-        return -1;    
+        else{
+            parent[para]=parb;
+            rank[parb]++;
+        }
+        return true;
+    }
+    int dad(int a,vector<int>&parent){
+        if(a==parent[a])return a;
+        parent[a]=dad(parent[a],parent);
+        return parent[a];
+    }
+public:
+    int countCompleteComponents(int n, vector<vector<int>>& edges) {
+        vector<int>parent(n);
+        vector<int>rank(n,0);
+        unordered_map<int,int>cntNodes;
+        unordered_map<int,int>edgesNodes;
+
+        for(int i=0;i<n;i++)parent[i]=i;
+        for(auto &edge:edges)Union(edge[0],edge[1],parent,rank);
+        for(auto&p:parent)cntNodes[p]++;
+        for(auto &edge:edges)edgesNodes[parent[edge[0]]]++;
+        int res=0;
+        for(auto&[p,c]:cntNodes){
+            if((cntNodes[p])*(cntNodes[p]-1)/2==edgesNodes[p]) res++;
+        }
+        return res;
 
     }
+
 };
