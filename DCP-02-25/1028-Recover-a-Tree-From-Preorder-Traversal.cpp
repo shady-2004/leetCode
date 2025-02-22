@@ -10,18 +10,22 @@
  * };
  */
 class Solution {
-public:
-    TreeNode* recoverFromPreorder(string traversal) {
-        
-        string number;
-        int i=0;
+    int num(string&traversal,int&i,string&number){
           while(i<traversal.size()&&traversal[i]!='-')
            {
             number+=traversal[i];
             i++;
            }
+    return stoi(number);
+    }
+public:
+    TreeNode* recoverFromPreorder(string traversal) {
+        
+        string number;
+        int i=0;
+        
 
-        TreeNode*root=new TreeNode(stoi(number));
+        TreeNode*root=new TreeNode(num(traversal,i,number));
         number="";
 
         stack<pair<TreeNode*,int>>nodes;
@@ -35,16 +39,8 @@ public:
             i++;
             d++;
            }
-           while(i<traversal.size()&&traversal[i]!='-')
-           {
-            number+=traversal[i];
-            i++;
-           }
-            
-
-       
-        temp=new TreeNode(stoi(number));
-
+         
+        temp=new TreeNode(num(traversal,i,number));
 
            while(nodes.top().second!=d-1){
             nodes.pop();
@@ -52,6 +48,7 @@ public:
             
             if(nodes.top().first->left){
                nodes.top().first->right=temp;
+               nodes.pop();
                }
             else nodes.top().first->left=temp;
         
