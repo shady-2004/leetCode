@@ -11,6 +11,8 @@ class Solution:
                 return False
 
             for j in range(len(visited)) :
+                if num[j] == "0" and len(cur) ==0 :
+                    continue
                 if visited[j] == 0 :
                     visited[j] = 1
                     res = permu(cur + num[j])
