@@ -14,8 +14,7 @@
 14                else :
 15                    head = temp.next
 16                   
-17                temp = temp.next
-18            else :
-19                prev = temp
-20                temp = temp.next
-21        return head
+17            else :
+18                prev = temp
+19            temp = temp.next
+20        return head
