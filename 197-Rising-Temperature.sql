@@ -1,6 +1,5 @@
 # Write your MySQL query statement below
-SELECT id FROM Weather w
-WHERE EXISTS( SELECT * FROM Weather w2  WHERE
- w2.recordDate + INTERVAL 1 DAY = w.recordDate
-  AND 
-w.temperature > w2.temperature  )
+SELECT w.id FROM Weather w
+JOIN Weather w2
+ON w.recordDate =  w2.recordDate + INTERVAL 1 DAY 
+WHERE w.temperature > w2.temperature 
