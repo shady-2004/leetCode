@@ -11,8 +11,7 @@ class Solution:
 
         for i in range(n-1,-1,-1) : 
             MIN = min(MIN,nums[i])
-            score[i] -= MIN 
-            if score[i] <= k  :
+            if score[i] - MIN <= k  :
                 res = i
         return res
                 
